@@ -4,49 +4,62 @@ const menuHamIcom = document.querySelector('.menu');
 const mobileMenu = document.querySelector('.mobile-menu');
 const menuCarritoIcom = document.querySelector('.navbar-shopping-cart');
 const shoppingCartContainer = document.querySelector('#shoppingCartContainer');
+const productDetailContainer = document.querySelector('#productDetail');
 const cardsContainer = document.querySelector('.cards-container');
+const productDetailCloseIcon = document.querySelector('.product-detail-close');
 
 //toggle intercambiar
 menuEmail.addEventListener('click',toggleDesktopMenu);
 menuHamIcom.addEventListener('click',toggleMobileMenu);
 menuCarritoIcom.addEventListener('click',toggleCarritoAside);
+productDetailCloseIcon.addEventListener('click',closeProductDetailAside);
 
 function toggleDesktopMenu(){
-
-    const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
-    mobileMenu.classList.toggle('inactive');
-    if(!isAsideClosed){
-        shoppingCartContainer.classList.add('inactive');
-     }
-    /* if(desktopMenu.getAttribute('class').indexOf('inactive') > -1){
-        desktopMenu.classList.remove('inactive')
-        
-    }else{
-        desktopMenu.classList.add('inactive')
-    } */
+    closeShoppingCart();
+    closeProductDetailAside();
     desktopMenu.classList.toggle('inactive');
 }
 
 function toggleMobileMenu(){
-    const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
+    closeShoppingCart();
+    closeProductDetailAside();
     mobileMenu.classList.toggle('inactive');
-    if(!isAsideClosed){
-        shoppingCartContainer.classList.add('inactive');
-     }
-
+   
 }
 
 function toggleCarritoAside(){
+    closeDesktopMenu();
+    closeProductDetailAside();
     const isMobileMenuClosed = mobileMenu.classList.contains('inactive');
-    const isDesktopMenuClosed  = desktopMenu.classList.contains('inactive');
+   
+    
     shoppingCartContainer.classList.toggle('inactive');
     if(!isMobileMenuClosed){
        mobileMenu.classList.add('inactive');
     }
-   if(!isDesktopMenuClosed){
-           desktopMenu.classList.add('inactive');
-   }
 
+
+
+}
+function closeShoppingCart(){
+    const isAsideClosed = shoppingCartContainer.classList.contains('inactive');
+    if(!isAsideClosed){
+        shoppingCartContainer.classList.add('inactive');
+     }
+}
+function closeDesktopMenu(){
+    const isDesktopMenuClosed  = desktopMenu.classList.contains('inactive');
+    if(!isDesktopMenuClosed){
+        desktopMenu.classList.add('inactive');
+    }
+}
+function  openProductDetailAside(){
+    closeShoppingCart();
+    closeDesktopMenu();
+    productDetailContainer.classList.remove('inactive');
+}
+function closeProductDetailAside(){
+    productDetailContainer.classList.add('inactive'); 
 }
 
 const productList = [];
@@ -65,22 +78,6 @@ productList.push({
     price: 1180,
     image: 'https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
 });
-productList.push({
-    name:'Bike',
-    price: 120,
-    image: 'https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-});
-productList.push({
-    name:'Iphone',
-    price: 520,
-    image: 'https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-});
-productList.push({
-    name:'Moto',
-    price: 1180,
-    image: 'https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
-});
-
 
 
 
@@ -92,6 +89,7 @@ function renderProducts(arr){
        
         const ProductImg= document.createElement('img');
         ProductImg.setAttribute('src',product.image);
+        ProductImg.addEventListener('click',openProductDetailAside);
        
         const productInfo= document.createElement('div');
         productInfo.classList.add('product-info');
